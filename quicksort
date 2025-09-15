@@ -1,0 +1,27 @@
+arr = []
+n = int(input("Enter n: "))
+
+for i in range(n):
+    x = int(input(f"Enter element {i+1}: "))
+    arr.append(x)
+
+
+def quick(array):
+    if len(array) <= 1:
+        return array
+
+    pivot = array[-1]
+    left = []
+    right = []
+
+    for i in array[:-1]:   
+        if i < pivot:
+            left.append(i)
+        else:
+            right.append(i)
+
+    return quick(left) + [pivot] + quick(right)
+
+
+sorted_arr = quick(arr)
+print("Sorted array:", sorted_arr)
