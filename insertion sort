@@ -1,0 +1,19 @@
+n = int(input("enter n"))
+array =[]
+
+for i in range(n):
+    x = int(input(f"enter {i+1} element  "))
+    array.append(x)
+
+for j in range(1,len(array)):
+    for i in range(1,len(array)):
+        if array[i]>array[i-1]:
+            continue
+        else:
+            k = array[i]
+            array[i] = array[i-1]
+            array[i-1] = k
+      
+        
+        
+print(array)
