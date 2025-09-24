@@ -1,0 +1,63 @@
+import copy
+hakadardz=[[0,0,0],[0,0,0],[0,0,0]]
+A = []
+B = []
+B2 =[]
+P = 0
+
+ 
+for i in range(3):
+    tox = []
+    for j in range(3):
+        x = int(input(f"Enter ({i})({j}) of matrix: "))
+        tox.append(x)
+    A.append(tox) 
+
+staticA = copy.deepcopy(A)
+
+
+ 
+for n in range(3):
+    
+    print(F"\n A{n+1}:")
+    for row in A:
+        print(row)
+
+    B = copy.deepcopy(A)
+    P = (1/(n+1))*(A[0][0]+A[1][1]+A[2][2])
+    for i in range(3):
+        for j in range(3):
+            if i == j :
+                B[i][j] = B[i][j] - P
+           
+
+    print(f"\n (P){n+1}:", P)
+    print(f"\n B{n+1}:")
+    for row in B:
+        print(row)
+
+    if n ==1:
+        B2 = copy.deepcopy(B)
+    C =[[0,0,0],[0,0,0],[0,0,0]]
+    for i in range(3):
+        for j in range(3):
+            for k in range(3):
+                C[i][j] += staticA[i][k]*B[k][j]
+
+    A = copy.deepcopy(C)
+
+for i in range(3):
+    for j in range(3):
+        if B[i][j] == 0:
+            continue
+        else:
+            print("matricy hakadzrdz chuni")
+
+
+for i in range(3):
+    for j in range(3):
+        hakadardz[i][j] = B2[i][j]/P
+print("\ndzer matrici hakadzrdzy")
+for i in hakadardz:
+    print(i)
+
