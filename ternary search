@@ -1,0 +1,38 @@
+def insertion_sort(arr: list):
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i - 1
+
+        while j >= 0 and arr[j] > key:
+            arr[j + 1] = arr[j]
+            j -= 1
+
+        arr[j + 1] = key
+
+    return arr
+
+def ternary_search(arr:list,cel,araji,verji):
+    if araji>verji:
+        return -1
+        
+    errord = (araji+verji)//3
+    mid1 = araji+errord
+    mid2 = verji-errord
+    
+    if arr[mid1] == cel:
+        return mid1
+    if arr[mid2] == cel:
+        return mid2
+    
+    if cel < arr[mid1]:
+        return ternary_search(arr,cel,araji,mid1-1)
+    elif cel >arr[mid1]:
+        return ternary_search(arr,cel,mid1+1,mid2-1)
+    else:
+        return ternary_search(arr,cel,mid2+1,verji)
+
+
+sorted_list = insertion_sort([1, 5, 3, 7, 4, 6])
+print("Սորտավուրված լիստը", sorted_list)
+index = ternary_search(sorted_list, 3,0,6)
+print("ձեր թվի ինդեքսը կլինի:", index)
