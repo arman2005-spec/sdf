@@ -1,0 +1,11 @@
+def lineal_search(arr:list,cel):
+    gtnvac = False
+    for i  in range(len(arr)):
+        if arr[i] == cel:
+            print(f"թիվը {i} ինդեքսի տակ է")    
+            gtnvac = True
+    if gtnvac == False:
+        print("չկա նման թիվ")
+
+
+linerial_search([1,5,4,9,7],10)
