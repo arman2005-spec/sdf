@@ -1,0 +1,35 @@
+def insertion_sort(arr: list):
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i - 1
+
+        while j >= 0 and arr[j] > key:
+            arr[j + 1] = arr[j]
+            j -= 1
+
+        arr[j + 1] = key
+
+    return arr
+
+def binary_search(arr: list, cel):
+    if len(arr) == 0:
+        return -1  
+
+    kes = len(arr) // 2
+
+    if arr[kes] == cel:
+        return kes
+    elif cel < arr[kes]:
+        return binary_search(arr[:kes], cel)
+    else:
+        result = binary_search(arr[kes + 1:], cel)
+        if result == -1:
+            return -1
+        else:
+            return kes + 1 + result   
+
+ 
+sorted_list = insertion_sort([1, 5, 3, 7, 4, 6])
+print("Սորտավուրված լիստը", sorted_list)
+index = binary_search(sorted_list, 3)
+print("ձեր թվի ինդեքսը կլինի:", index)
