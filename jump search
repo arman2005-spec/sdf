@@ -1,0 +1,27 @@
+import math
+
+def jump_search(arr:list,x):
+    n = len(arr)
+    jump = int(math.sqrt(n))
+
+
+    for i in arr[::jump]:
+        if arr.index(i) + jump >= n:
+            i = arr[n-1]
+        if x==i:
+            print(f"we found x  at index {arr.index(i)}")
+            return 1        
+        elif x > i:
+            continue
+        else:
+            for j in arr[arr.index(i)-jump:arr.index(i)]:
+                if x == j:
+                    print(f"we found x  at index {arr.index(j)}")
+                    return 1
+    print("not found")
+    return -1
+
+                
+
+ar = [1,2,3,4,7,9,13,15,18]
+jump_search(ar,20)
