@@ -1,0 +1,21 @@
+def shell_sort(arr:list):
+    n = len(arr)
+    gap = n//2
+
+    while gap >0:
+        for i in range(gap,n):
+            tiv = arr[i]
+            j = i
+
+            while j >=gap and arr[j-gap] > tiv:
+                arr[j] = arr[j-gap]
+                j-=gap
+
+            arr[j] = tiv
+
+
+        gap = gap//2
+    return arr
+ar = [1,8,4,6,2,7,9,3]
+
+print(shell_sort(ar))
