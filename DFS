@@ -1,0 +1,35 @@
+graph = {
+    'A': ['B', 'C'],
+    'B': ['D', 'E'],
+    'C': ['F'],
+    'D': [],
+    'E': ['F'],
+    'F': []
+}
+
+
+
+
+
+
+def dfs(graf,skizb,visited=None):
+    if visited is None:
+        visited = set()
+
+
+    visited.add(skizb)
+    print(skizb)
+
+
+    for i in graf[skizb]:
+        if i not in visited:
+            dfs(graf,i,visited)
+
+
+    return  visited
+
+
+
+print(dfs(graph,"A"))
+
+
