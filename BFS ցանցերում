@@ -1,0 +1,29 @@
+from collections import deque
+
+def bfs_matrix(mat, start):
+    n = len(mat)
+    visited = [False] * n
+    order = []
+    q = deque([start])
+    visited[start] = True
+
+    while q:
+        v = q.popleft()
+        order.append(v)
+        for u in range(n):
+            if mat[v][u] == 1 and not visited[u]:
+                visited[u] = True
+                q.append(u)
+
+    return order
+
+
+matrix = [
+    [0, 1, 1, 0, 0],
+    [1, 0, 0, 1, 1],
+    [1, 0, 0, 0, 0],
+    [0, 1, 0, 0, 0],
+    [0, 1, 0, 0, 0]
+]
+
+print(bfs_matrix(matrix, 0))
