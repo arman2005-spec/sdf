@@ -1,0 +1,28 @@
+from collections import deque
+
+def bfs(graph, start):
+    visited = set([start])
+    order = []
+    q = deque([start])
+
+    while q:
+        v = q.popleft()
+        order.append(v)
+        for u in graph.get(v, []):
+            if u not in visited:
+                visited.add(u)
+                q.append(u)
+
+    return order
+
+
+graph = {
+    1: [2, 3],
+    2: [4, 5],
+    3: [6],
+    4: [],
+    5: [],
+    6: []
+}
+
+print(bfs(graph, 1))
