@@ -1,0 +1,26 @@
+def bellman_ford(graph, start):
+    dist = {v: float("inf") for v in graph}
+    dist[start] = 0
+    edges = [(u, v, w) for u in graph for v, w in graph[u]]
+    n = len(graph)
+
+    for _ in range(n - 1):
+        for u, v, w in edges:
+            if dist[u] + w < dist[v]:
+                dist[v] = dist[u] + w
+
+    for u, v, w in edges:
+        if dist[u] + w < dist[v]:
+            return None
+
+    return dist
+
+
+graph = {
+    1: [(2, 4), (3, 5)],
+    2: [(3, -2), (4, 6)],
+    3: [(4, 1)],
+    4: []
+}
+
+print(bellman_ford(graph, 1))
