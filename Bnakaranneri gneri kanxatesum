@@ -1,0 +1,78 @@
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler
+
+%matplotlib inline
+
+url = 'https://raw.githubusercontent.com/ywchiu/riii/refs/heads/master/data/house-prices.csv'
+dataset = pd.read_csv(url)
+
+dataset['Brick'] = dataset['Brick'].replace({'No':0.0, 'Yes':1.0})
+dataset['Neighborhood'] = dataset['Neighborhood'].replace({'North':1.0, 'East':2.0, 'West':3.0})
+
+X = dataset.drop('Price', axis=1).values
+Y = dataset['Price'].values.reshape(-1, 1)
+
+scaler_X = MinMaxScaler()
+X_scaled = scaler_X.fit_transform(X)
+
+Y_scaled = Y / 1000.0
+
+x_train, x_test, y_train, y_test = train_test_split(X_scaled, Y_scaled, test_size=0.2, random_state=42)
+
+x_train = torch.FloatTensor(x_train)
+y_train = torch.FloatTensor(y_train)
+x_test = torch.FloatTensor(x_test)
+y_test = torch.FloatTensor(y_test)
+
+class Model(nn.Module):
+    def __init__(self, input_size=7, h1=64, h2=32, output_size=1):
+        super().__init__()
+        self.fc1 = nn.Linear(input_size, h1)
+        self.fc2 = nn.Linear(h1, h2)
+        self.fc3 = nn.Linear(h2, output_size)
+        self.dropout = nn.Dropout(p=0.2)
+
+    def forward(self, x):
+        x = F.relu(self.fc1(x))
+        x = self.dropout(x)
+        x = F.relu(self.fc2(x))
+        x = self.fc3(x)
+        return x
+
+torch.manual_seed(42)
+model = Model(input_size=x_train.shape[1])
+
+loss_fn = nn.MSELoss()
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+
+epochs = 100
+losses = []
+model.train()
+for i in range(epochs):
+    y_pred = model(x_train)
+    loss = loss_fn(y_pred, y_train)
+    losses.append(loss.item())
+    if i % 10 == 0:
+        print(f'Epoch {i}, Loss: {loss.item()}')
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+
+plt.plot(losses)
+plt.xlabel('Epoch')
+plt.ylabel('MSE Loss')
+plt.title('Training Loss')
+plt.show()
+
+model.eval()
+with torch.no_grad():
+    y_test_pred = model(x_test)
+    test_loss = loss_fn(y_test_pred, y_test)
+    print(f'Test Loss: {test_loss.item()}')
+
+y_test_pred_orig = y_test_pred * 1000
